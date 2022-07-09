@@ -1,3 +1,6 @@
+scoreleftwrist=0;
+song1status="";
+song2status="";
 var song1="";
 var song2="";
 var leftwristx="";
@@ -21,6 +24,18 @@ function setup(){
 
 function draw(){
     image(video, 0, 0, 600, 500);
+    song1status=song1.isPlaying();
+    song2status=song2.isPlaying();
+    fill("aquamarine");
+    stroke("gold");
+    if(scoreleftwrist>0.2){
+        circle(leftwristx, leftwristy, 20);
+        song1.stop();
+        if(song2status==false){
+            song2.play()
+            document.getElementById("song").innerHTML="Playing - Harry Potter"
+        }
+}
 }
 
 function play(){
@@ -36,6 +51,8 @@ function modelLoaded(){
 function gotPoses(results){
     if(results.length>0){
         console.log(results);
+        scoreleftwrist=results[0].pose.keypoints[9].score;
+        console.log("scoreleftwrist="+scoreleftwrist)
         leftwristx=results[0].pose.leftWrist.x;
         leftwristy=results[0].pose.leftWrist.y;
         console.log("leftwristx="+leftwristx+"leftwristy="+leftwristy);
